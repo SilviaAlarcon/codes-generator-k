@@ -1,0 +1,33 @@
+<form id="generator" action="/api/books" method="post">
+  <input type="text" name="name" value="">
+  <br><br>
+  <input type="text" name="level" value="">
+  <br><br>
+  <input type="submit" value="Generator">
+</form>
+
+<script type="text/javascript">
+  const formGenerator = document.querySelector('#generator')
+  const formData = new FormData(formGenerator)
+  formGenerator.addEventListener('submit', event => {
+    event.books.map(book => {
+      let text = document.createTextNode(book.name)
+      let text1 = document.createTextNode(book.level)
+      let elem = document.createElement('p')
+      let elem1 = document.createElement('p')
+      elem.appendChild(text)
+      elem1.appendChild(text1)
+      booksList.appendChild(elem1)
+      booksList.appendChild(elem)
+      console.log(text1)
+    fetch('/api/books', {
+      method: 'POST',
+      body: formData
+    })
+  .then(res => res.json())
+  .then(data => {
+
+    })
+    document.body.appendChild(booksList)
+  })
+</script>

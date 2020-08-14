@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Codes</title>
+  </head>
+  <body>
+
+    <div class="container my-5 text-center">
+      <button class="btn btn-danger w-100" onclick="traer()">Obtener</button>    
+      <div class="mt-5" >
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Nivel</th>
+              <th scope="col">Autor</th>
+              <th scope="col">Campo disciplinario</th>
+              <th scope="col">Lote</th>
+              <th scope="col">ID del libro</th>
+              <th scope="col">Código</th>
+            </tr>
+          </thead>
+          <tbody id="contenido">
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script>
+    var contenido = document.querySelector("#contenido")
+
+    function traer(){
+        fetch('./api/books')
+            .then(res => res.json())
+            .then( books => {
+                table()
+            })
+    }
+
+    function table(books){    
+        contenido.innerHTML = ''
+        for(let valor of Object.entries(books)){
+          console.log(books[valor])
+      }
+    }
+
+  </script>
+</html>

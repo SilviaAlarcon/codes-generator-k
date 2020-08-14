@@ -1,0 +1,40 @@
+<script type="text/javascript">
+  let booksList = document.createElement('div')
+  
+  const myHeaders = new Headers();
+  myHeaders.append('authorization', `Bearer ${localStorage.token}`)
+  fetch('/api/books', {
+    method: 'GET',
+    headers: myHeaders
+  })
+  .then(res => res.json())
+  .then(data => {
+    data.books.map(book => {
+      let text = document.createTextNode(`${book.name}  --- `)
+
+      let text1 = document.createTextNode(book.level)
+      let text2 = document.createTextNode(book.author)
+      let text3 = document.createTextNode(book.disciplinaryField)
+      let text4 = document.createTextNode(book.lote)
+      let text5 = document.createTextNode(book.idBook)
+      let text6 = document.createTextNode(book.codes)
+      let table = document.createElement('table')
+      let tbody = document.createElement('tbody')
+      let column = document.createElement('tr')
+      let celda = document.createElement('td')
+      celda.appendChild(text)
+      celda.style.whiteSpace="pre"
+      celda.appendChild(text1)
+      celda.appendChild(text2)
+      celda.appendChild(text3)
+      celda.appendChild(text4)
+      celda.appendChild(text5)
+      celda.appendChild(text6)
+      column.appendChild(celda)
+      tbody.appendChild(column)
+      table.appendChild(tbody)
+      booksList.appendChild(table)
+    })
+    document.body.appendChild(booksList)
+  })
+</script>

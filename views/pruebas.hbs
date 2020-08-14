@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+    <div class='wrapper'>
+        <form id='nameForm' action="/api/books" method="POST">
+            <div class='form-uname'>
+                <label id='nameBook' for='nameField'>Nombre del libro: </label>
+                <input id='selectBook' type='text' name="name"></input>
+                <label id='nameLable' for='nameField'>Número de códigos solicitados: </label>
+                <input id='numberCodes' type='number'></input>
+                <!-- <label id='lote' for='nameField'>Número de lote: </label>
+                <label id="count_click"></label> -->
+            </div>
+            <div class='form-sub'>
+                <button id='generate' type='button'>Generar</button>
+                <button onclick="exportTableToCSV('codes.csv')">Descargar CSV</button>
+            </div>
+        </form>
+<!--         <div>
+            <ul id='result'>               
+            </ul>
+        </div> -->
+        <table action="/api/books" method="POST">
+            <tr>
+                <th scope="col">Número de lote</th>
+                <th scope="col">Id del libro</th>
+                <th scope="col">Código</th>
+            </tr>
+            <tr>
+                <th id="count_click"></th>
+                <th id='book'></th>   
+                <th id="result" name="codes"></th>
+            </tr>
+        </table>
+        <div >
+
+        </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script> 
+<script>
+    function getCodes() {
+        var numberCodes = document.getElementById('numberCodes').value;
+        var result = document.getElementById('result');
+        var book = document.getElementById('selectBook');
+        var idBook = document.getElementById('idBook');
+
+        for (let i = 0; i < numberCodes; i++) {
+            let res = (numberCodes[i], uuid.v4())
+            console.log(res)
+            // result.textContent = 'Tu código es: ' + res;
+            // document.getElementById("result").innerHTML = 'Tu código es: ' + res;
+            
+/*             result.append(`Tu código es: ${res}  `)
+            console.log(typeof(result.append)) */
+            let prueba = document.createElement('tr')
+            prueba.appendChild(res)
+            console.log(prueba)
+            let prueba3 = document.createElement('br')
+            let prueba2 = document.createTextNode(`Tu codigo es: ${prueba} `)
+            result.append(prueba2, prueba3)
+        }
+    }
+
+    function getIds() {
+        var numberCodes = document.getElementById('numberCodes').value;
+        var result = document.getElementById('book');
+
+        var booksN;
+        for (let i = 1; i <= numberCodes; i++) {
+            let resultId = document.createTextNode(i)
+            console.log(i)
+            // result.textContent = 'Tu código es: ' + res;
+            // document.getElementById("result").innerHTML = 'Tu código es: ' + res;
+            
+/*             result.append(`Tu código es: ${res}  `)
+            console.log(typeof(result.append)) */
+            let espacio = document.createElement('br')
+            // let resultId = document.createTextNode(`BTQ${booksN} `)
+            let nameBook = document.createTextNode(`BTQ00 `)
+            book.append(nameBook, resultId, espacio)
+        }
+    }
+
+/*     function nameBook(){
+        var namesBooks = book.slice(0, 2)
+        document.getElementById("idBook").innerHTML = namesBooks
+    } */
+
+    var count_click = 0;
+    //AÑADE UN CLICK AL EJECUTAR LA FUNCIÓN
+    function lote_counter() {
+            count_click += 1;
+            document.getElementById("count_click").innerHTML = `Numero de lote ${count_click}`;
+    }
+
+    var subButton = document.getElementById('generate');
+    subButton.addEventListener('click', getCodes, false); 
+    subButton.addEventListener('click', lote_counter);
+    subButton.addEventListener('click', getIds, false);
+
+    function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], {type: "text/csv"});
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+    function exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) 
+                row.push(cols[j].innerText);
+            
+            csv.push(row.join(","));        
+        }
+
+        // Download CSV file
+        downloadCSV(csv.join("n"), filename);
+    }
+</script>
+</html>

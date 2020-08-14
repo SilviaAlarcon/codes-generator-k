@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+{{!--     <style>
+      :root {
+      --shadowColor: hsla(0, 0%, 0%, 0.08);
+      background: #f0f3f7;
+    }
+    .tab{
+      margin-bottom: 50px;
+    }
+    .tabcontent {
+      color: rgba(0, 0, 0, .6);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .form {
+      border: 1px solid black; 
+      box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+      border-radius: 5px;
+      width: 400px;
+      margin: 0 auto;
+      padding: 2em 1.5em;
+      background: white;
+    }
+    .form_title {
+      text-align: center;
+      display: block;
+      padding-bottom: 1em;
+      margin-bottom: 1em;
+      font-size: 1.2em;
+      font-weight: bold;
+      box-shadow: 0 3px 2px -2px var(--shadowColor);
+    }
+    .form_items {
+      width: 100%;
+      border-radius: 5px;
+      box-shadow: inset 0 2px 4px 0 var(--shadowColor);
+      font-size: 14px;
+      padding: .8em 1em;
+      box-sizing: border-box;
+      border: 1px solid var(--shadowColor);
+      margin-bottom: 1em;
+      outline: 0;
+    }
+    .form_items:focus {
+      box-shadow: 0 0 10px 0 rgba(255, 255, 255, .5);
+    }
+    .btn {
+      color: black;
+      background:white;
+      border: black solid 1px;
+      width: 100%;
+      padding: .8em 1em;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, .7);
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      display: none;
+      transition: 1200ms;
+      
+    }
+    .overlay.is-active {
+      display: block;
+      
+    }
+    .form_items.is-active {
+      position: relative;
+      z-index: 3;
+      
+    }
+    .btn {
+      position: relative;
+      z-index: 3;
+    }
+
+    .tab{
+      text-align: center;
+    }
+
+    .tablinks{
+      color: black;
+      background:white;
+      border: black solid 1px;
+      width: 20%;
+      padding: .8em 1em;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-top: 40px;
+    }
+
+    .coding_history{
+      border: 1px solid black; 
+      box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+      border-radius: 5px;
+      width: 400px;
+      margin: 0 auto;
+      padding: 2em 1.5em;
+      background: white;
+    }
+    </style> --}}
+  </head>
+
+  <body>
+    <div class="tab">
+      {{!-- <button class="tablinks" onclick="openCategory(event, 'Codigo')">Generar codigos</button>
+      <button class="tablinks" onclick="openCategory(event, 'History')">Historial</button> --}}
+    </div>
+    <div class="tabcontent" id='Codigo'>
+    
+    
+    <!-- Inicio de formulario -->
+    <form class="form" action="/api/books" method="POST">
+      <label class="form_title">Generador de códigos</label>
+
+      <!-- Materias -->
+      <input class="form_items" type="text" list="items" placeholder="Nombre del libro" name="name"/>
+      <datalist id="items">
+        <option>Ética I</option>
+        <option>Informática I</option>
+        <option>Matemáticas I</option>
+        <option>Metodología de la Investigación</option>
+        <option>Química I</option>
+        <option>Taller de lectura y redacción I</option>
+      
+      </datalist>
+
+      <!-- Nivel -->
+      <input class="form_items" type="text" list="nivel" placeholder="Nivel" name="level"/>
+      <datalist id="nivel">
+        <option>Bachillerato General</option>
+        <option>Bachillerato Tecnologíco</option>
+        <option>CONALEP</option>
+      </datalist>
+      
+      <!-- Autor -->
+      <input class="form_items" type="text" list="autor" placeholder="Autor" name="author"/>
+      <datalist id="autor">
+        <option>Silvia</option>
+        <option>Bachillerato Tecnologíco</option>
+        <option>CONALEP</option>
+      </datalist>
+
+      <!-- Campo disciplinario -->
+      <input class="form_items" type="text" list="campo" placeholder="Campo disciplinario" name="disciplinaryField"/>
+      <datalist id="campo">
+        <option>Humanidades</option>
+        <option>Bachillerato Tecnologíco</option>
+        <option>CONALEP</option>
+      </datalist>
+
+      {{!-- Número de códigos --}}
+      <input class="form_items" type="text" name="codigo" id='numberCodes' placeholder="Número de códigos" autocomplete="off" required />
+
+      <button class="btn" type="submit">Generar</button>
+      
+    </form>
+
+    <div class='form-sub' action="/api/books" method="POST">
+        <button id='generate' type='button'>Generar</button>
+    </div>
+    
+    <table action="/api/books" method="GET">
+            <tr>
+                <th scope="col">Número de lote</th>
+                <th scope="col">Id del libro</th>
+                <th scope="col">Código</th>
+            </tr>
+            <tr>
+                <th id="count_click"></th>
+                <th id='book'></th>   
+                <th id="result" name="codes"></th>
+            </tr>
+        </table>
+    
+    <div class="overlay" id="overlay"></div>
+      
+    </div>
+
+    </div>
+    <div class="tabcontent" id='History'>
+      <div class="coding_history">
+        <h2>Historial de codigos generados </h2>
+        <input class="form_items" type="text"  placeholder="" />
+      </div>
+    </div>
+  </body>
+
+</html>
+
+<script>
+  function openCategory(evt, categoryName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(categoryName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script> 
+<script>
+    function getCodes() {
+        var numberCodes = document.getElementById('numberCodes').value;
+        var result = document.getElementById('result');
+        var book = document.getElementById('selectBook');
+        var idBook = document.getElementById('idBook');
+
+        for (let i = 0; i < numberCodes; i++) {
+            let res = (numberCodes[i], uuid.v4())
+            console.log(res)
+            // result.textContent = 'Tu código es: ' + res;
+            // document.getElementById("result").innerHTML = 'Tu código es: ' + res;
+            
+/*             result.append(`Tu código es: ${res}  `)
+            console.log(typeof(result.append)) */
+            let prueba3 = document.createElement('br')
+            let prueba2 = document.createTextNode(`Tu codigo es: ${res} `)
+            result.append(prueba2, prueba3)
+        }
+    }
+
+    var subButton = document.getElementById('generate');
+    subButton.addEventListener('click', getCodes, false); 
+</script> 
